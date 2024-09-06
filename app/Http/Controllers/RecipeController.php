@@ -53,7 +53,7 @@ class RecipeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Recipe $recipe)
     {
         return $recipe->load('ingredients');
     }
@@ -61,7 +61,7 @@ class RecipeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Recipe $recipe)
     {
         $request->validate([
             'name' => 'required|string|max:255',
@@ -95,7 +95,7 @@ class RecipeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Recipe $recipe)
     {
         if ($recipe->image) {
             Storage::delete('public/' . $recipe->image);
