@@ -3,15 +3,15 @@
         <h1 class="text-2xl font-bold mb-4">Create Recipe</h1>
 
         <form @submit.prevent="submitForm">
-            <input v-model="recipe.name" class="border p-2 mb-4 w-full" required/>
-            <textarea v-model="recipe.instructions" class="border p-2 mb-4 w-full" required></textarea>
-            <input v-model="recipe.cuisine_type" class="border p-2 mb-4 w-full" required />
+            <input v-model="recipe.name" placeholder="Recipe Name" class="border p-2 mb-4 w-full" required/>
+            <textarea v-model="recipe.instruction" placeholder="Instructions" class="border p-2 mb-4 w-full" required></textarea>
+            <input v-model="recipe.cuisine_type" placeholder="Cuisine Type" class="border p-2 mb-4 w-full" required />
             <input type="file" @change="onFileChange" class="border p-2 mb-4 w-full"/>
 
             <h3 class="mt-4 mb-4"> Ingredients: </h3>
             <div v-for="(ingredient, index) in recipe.ingredients" :key="index" class="mb-4">
-                <input v-model="ingredient.name" required class="border p-2 w-1/3 mr-2"/>
-                <input v-model="ingredient.quantity" required class="border p-2 w-1/3 mr-2" />
+                <input v-model="ingredient.name" placeholder="Ingredient Name" required class="border p-2 w-1/3 mr-2"/>
+                <input v-model="ingredient.quantity" placeholder="Quantity" required class="border p-2 w-1/3 mr-2" />
 
                 <button @click.prevent="removeAddedIngredient(index)" class="bg-red-500 text-white px-2">Remove</button>
             </div>
@@ -32,7 +32,7 @@ export default defineComponent({
     setup() {
         const initialRecipe = {
             name: '',
-            instructions: '',
+            instruction: '',
             cuisine_type: '',
             ingredients: [{name: '', quantity: ''}]
         };

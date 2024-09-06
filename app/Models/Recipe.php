@@ -13,7 +13,7 @@ class Recipe extends Model
     protected $fillable = ['name', 'instruction', 'image', 'cuisine_type'];
 
     protected $casts = [
-        'cuisine_type' => CuinsineType::class
+        'cuisine_type' => CuisineType::class
     ];
 
     public function ingredients()

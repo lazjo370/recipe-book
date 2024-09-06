@@ -26,7 +26,7 @@ class RecipeController extends Controller
             'name' => 'required|string|max:255',
             'instruction' => 'required|string',
             'image' => 'nullable|image|mimes:png,jpg|max:2048',
-            'cuisine_type' => 'required|in:'.implode(',', array_column(CuisineType::class(), 'value')), // todo check if it works later
+            'cuisine_type' => 'required|string',
             'ingredients' => 'required|array',
             'ingredients.*.name' => 'required|string|max:255',
             'ingredients.*.quantity' => 'required|string|max:255',

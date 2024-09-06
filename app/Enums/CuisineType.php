@@ -1,7 +1,7 @@
 <?php
 namespace App\Enums;
 
-enum  CuinsineType: string
+enum  CuisineType: string
 {
     case English = 'English';
     case French = 'French';
