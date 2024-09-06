@@ -26,7 +26,7 @@ class RecipeController extends Controller
             'name' => 'required|string|max:255',
             'instruction' => 'required|string',
             'image' => 'nullable|image|mimes:png,jpg|max:2048',
-            'cuisine_type' => 'required|string',
+            'cuisine_type' => 'nullable|string|max:255',
             'ingredients' => 'required|array',
             'ingredients.*.name' => 'required|string|max:255',
             'ingredients.*.quantity' => 'required|string|max:255',
@@ -55,7 +55,7 @@ class RecipeController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return $recipe->load('ingredients');
     }
 
     /**
@@ -63,7 +63,33 @@ class RecipeController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'instructions' => 'required|string',
+            'cuisine_type' => 'nullable|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'ingredients' => 'required|array',
+        ]);
+
+        $recipe->update($request->only('name', 'instructions'));
+
+        if($request->cuisin_type) $recipe->cuisine_type = CuisineType::from($request->cuisin_type);
+
+        if ($request->hasFile('image')) {
+            if ($recipe->image) {
+                Storage::delete('public/' . $recipe->image);
+            }
+            $path = $request->file('image')->store('images', 'public');
+            $recipe->image = $path;
+            $recipe->save();
+        }
+
+        $recipe->ingredients()->delete();
+        foreach ($request->ingredients as $ingredient) {
+            $recipe->ingredients()->create($ingredient);
+        }
+
+        return response()->json($recipe->load('ingredients'), 200);
     }
 
     /**
@@ -71,6 +97,10 @@ class RecipeController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        if ($recipe->image) {
+            Storage::delete('public/' . $recipe->image);
+        }
+        $recipe->delete();
+        return response()->json(null, 204);
     }
 }

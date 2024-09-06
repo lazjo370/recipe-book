@@ -10,7 +10,7 @@ Route::prefix('api')->group(function () {
     Route::apiResource('recipes', App\Http\Controllers\RecipeController::class);
 });
 
-Route::get('{any}', function (){
+Route::get('{any}', function () {
     return view('welcome');
 })->where('any', '.*');
 

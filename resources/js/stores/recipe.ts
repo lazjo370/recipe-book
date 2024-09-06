@@ -7,6 +7,15 @@ export const useRecipeStore = defineStore('recipes', {
         recipes: [] as Recipe[],
     }),
     actions: {
+        async fetchRecipes() {
+            const response = await axios.get('/api/recipes');
+            this.recipes = response.data;
+            return this.recipes;
+        },
+        async getRecipe(id: number) {
+            const response = await axios.get(`/api/recipes/${id}`);
+            return response.data;
+        },
         async addRecipe(recipe: Recipe) {
             const formData = new FormData();
             formData.append('name', recipe.name);
@@ -26,6 +35,7 @@ export const useRecipeStore = defineStore('recipes', {
                     'Content-Type': 'multipart/form-data',
                 },
             });
+            await this.fetchRecipes();
         },
     },
 });
